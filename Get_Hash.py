@@ -67,14 +67,7 @@ def main():
    var=input('please enter sha1 ')
    sha1_list.append('var')
 
-    sha1 = GetHashofDirs()
-
-    proc = get_proc_list()
-
-    hashes = args.hash
-
-    print hashes
-
+    proc = get_proc_list_win()
 
 if __name__ == "__main__":
     main()
