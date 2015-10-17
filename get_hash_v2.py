@@ -28,8 +28,7 @@ import os
 import signal
 import subprocess
 import argparse
-try:
-    import wmi
+#import wmi
 
 
 def initialize():
