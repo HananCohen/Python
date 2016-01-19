@@ -1,0 +1,49 @@
+#!/usr/bin/python
+
+#############################################################################################
+# File name: domain_adding.py
+# Date: 14/1/2016
+# Created By: Hanan Cohen <hanan.c80@gmail.com>
+# Purpose: script used to create domains in IRedMail
+#
+# Help: requires MySQLdb to work
+#       installer at: http://sourceforge.net/projects/mysql-python/
+#       readme at: http://sourceforge.net/p/mysql-python/mysqldb-2/ci/default/tree/README
+#
+# Usage:  change the MySQLdb.connect to the correct DB with user with write privileges
+#         place list of wanted domains in domains.txt (one per line)
+#         run domain_adding.py
+#
+###########################################################################################
+
+import MySQLdb
+import time
+
+#initalize variables
+email_domain = "user@domain.com"
+date_created = time.strftime('%Y/%m/%d %H:%M:%S')
+domain_list_file = open('domains.txt', 'r')
+
+# connect to DB (server, user, pass, DB)
+db = MySQLdb.connect("dbhost.domain.com", "UserNsme", "password", "vmail")
+
+# create cursor
+cursor = db.cursor()
+
+#read file one line at a time + loop the query below
+for line in domain_list_file:
+
+# set email_domain variable to be the current one from the file line currently worked on
+    email_domain = line.strip()
+
+# insert query where domain = FQDN 
+# date created in the format of 2014-10-06 11:11:27
+    sql = "insert into domain(domain, description, disclaimer, aliases, mailboxes, maxquota, quota, transport, backupmx, settings, created) values ('%s', 'NULL', 'NULL', '0', '0', '0', '0', 'dovecot', '0', 'NULL', '%s')" %(email_domain, date_created)
+
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except:
+        db.rollback()
+
+db.close()
