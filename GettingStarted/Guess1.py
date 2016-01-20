@@ -1,6 +1,6 @@
 import random
 
-print('Hello, What\'s your favorit collor')
+print('Hello, What\'s your favorit number')
 number = input()
 
 print('your favorit number is ' + number)
